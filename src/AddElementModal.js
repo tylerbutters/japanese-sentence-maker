@@ -31,8 +31,8 @@ export default function AddElementModal({
 		}
 	}, [elements])
 
-	function onClickElement(text) {
-		onSelect({ type: selectedElement, text: text })
+	function onClickElement(value) {
+		onSelect({ type: selectedElement, value: value })
 		setIsModalOpen(false)
 	}
 
@@ -58,13 +58,13 @@ export default function AddElementModal({
 				}}
 			>
 				<div className="secondModal">
-					{elements[onlyKey]?.map((text) => (
+					{elements[onlyKey]?.map((value) => (
 						<button
 							className="addElementModalButton"
-							key={text}
-							onClick={() => onClickElement(text)}
+							key={value}
+							onClick={() => onClickElement(value)}
 						>
-							{text}
+							{value}
 						</button>
 					))}
 				</div>
@@ -85,13 +85,13 @@ export default function AddElementModal({
 			{/* SECOND STEP MODAL */}
 			{selectedElement && (
 				<div className="secondModal">
-					{elements[selectedElement]?.map((text) => (
+					{elements[selectedElement]?.map((value) => (
 						<button
 							className="addElementModalButton"
-							key={text}
-							onClick={() => onClickElement(text)}
+							key={value}
+							onClick={() => onClickElement(value)}
 						>
-							{text}
+							{value}
 						</button>
 					))}
 				</div>

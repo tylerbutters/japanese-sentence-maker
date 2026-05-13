@@ -8,7 +8,7 @@ import useElementsStore from "../useElementsStore"
 import Coupla from "./Coupla"
 import Punctuation from "./Punctuation"
 
-export default function Element({ type, text, mouse, replaceElement, deleteElement }) {
+export default function Element({ element, mouse, replaceElement, deleteElement }) {
 	const [isModalOpen, setIsModalOpen] = useState(false)
 	const allElements = useElementsStore((state) => state)
 	const [selectedElements, setSelectedElements] = useState()
@@ -18,9 +18,6 @@ export default function Element({ type, text, mouse, replaceElement, deleteEleme
 		verb: allElements.verb,
 		adjective: allElements.adjective,
 	}
-
-	const stem = text.slice(0, -1)
-	const lastChar = text.at(-1)
 
 	useEffect(() => {
 		if (selectedElements) {
@@ -39,25 +36,46 @@ export default function Element({ type, text, mouse, replaceElement, deleteEleme
 				deleteElement={deleteElement}
 				isElement={true}
 			/>
-			{type === "noun" && (
+			{element?.type === "noun" && (
 				<Noun
-					text={text}
+					element={element}
 					mouse={mouse}
 					defaultElements={defaultElements}
 					onClickSelf={() => setIsModalOpen(true)}
+					replaceElement={replaceElement}
 				/>
 			)}
-			{type === "adjective" && (
-				<Adjective text={text} mouse={mouse} onClickSelf={() => setIsModalOpen(true)} />
+			{element?.type === "adjective" && (
+				<Adjective
+					text={element?.value}
+					mouse={mouse}
+					onClickSelf={() => setIsModalOpen(true)}
+					replaceElement={replaceElement}
+				/>
 			)}
-			{type === "verb" && (
-				<Verb text={text} mouse={mouse} onClickSelf={() => setIsModalOpen(true)} />
+			{element?.type === "verb" && (
+				<Verb
+					text={element?.value}
+					mouse={mouse}
+					onClickSelf={() => setIsModalOpen(true)}
+					replaceElement={replaceElement}
+				/>
 			)}
-			{type === "coupla" && (
-				<Coupla text={text} mouse={mouse} onClickSelf={() => setIsModalOpen(true)} />
+			{element?.type === "coupla" && (
+				<Coupla
+					text={element?.value}
+					mouse={mouse}
+					onClickSelf={() => setIsModalOpen(true)}
+					replaceElement={replaceElement}
+				/>
 			)}
-			{type === "punctuation" && (
-				<Punctuation text={text} mouse={mouse} onClickSelf={() => setIsModalOpen(true)} />
+			{element?.type === "punctuation" && (
+				<Punctuation
+					text={element?.value}
+					mouse={mouse}
+					onClickSelf={() => setIsModalOpen(true)}
+					replaceElement={replaceElement}
+				/>
 			)}
 		</div>
 	)

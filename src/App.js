@@ -90,8 +90,8 @@ export default function App() {
 	}
 
 	useEffect(() => {
-		elementsToString()
-	}, [])
+		elementsToString(addedElements)
+	}, [addedElements])
 
 	useEffect(() => {
 		function handleMove(e) {
@@ -102,9 +102,8 @@ export default function App() {
 		return () => window.removeEventListener("mousemove", handleMove)
 	}, [])
 
-	function elementsToString() {
+	function elementsToString(addedElements) {
 		let string = ""
-
 		function adjective(element) {
 			if (element?.value) string += element.value
 			if (element?.conjugation?.type === "adjective") adjective(element.conjugation)
@@ -126,7 +125,7 @@ export default function App() {
 			if (element.particle) string += element.particle
 		}
 
-		sentenceExample.forEach((element) => {
+		addedElements.forEach((element) => {
 			if (element.type === "noun") noun(element)
 			else if (element.type === "adjective") adjective(element)
 			else if (element.type === "verb") verb(element)
@@ -142,10 +141,10 @@ export default function App() {
 			return copy
 		})
 	}
-	function replaceElement(index, element) {
+	function replaceElement(index, newElement) {
 		setAddedElements((prev) => {
 			const copy = [...prev]
-			copy[index] = element
+			copy[index] = newElement
 			return copy
 		})
 	}
@@ -163,11 +162,11 @@ export default function App() {
 			<div style={{ color: "white", display: "flex", flexDirection: "row", marginBottom: 20 }}>
 				{sentenceString}
 			</div>
-			<div style={{ color: "white", display: "flex", flexDirection: "row", marginBottom: 20 }}>
+			{/* <div style={{ color: "white", display: "flex", flexDirection: "row", marginBottom: 20 }}>
 				{addedElements.map((element, index) => (
-					<div key={index}>{element.text}</div>
+					<div key={index}>{element.value}</div>
 				))}
-			</div>
+			</div> */}
 			<div className="elementsContainer">
 				{addedElements.map((element, index) => (
 					<div key={index} style={{ display: "flex", alignItems: "center" }}>
@@ -177,8 +176,7 @@ export default function App() {
 							addElement={(element) => addElement(index, element)}
 						/>
 						<Element
-							type={element.type}
-							text={element.text}
+							element={element}
 							mouse={mouse}
 							replaceElement={(newElement) => replaceElement(index, newElement)}
 							deleteElement={() => deleteElement(index)}
