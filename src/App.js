@@ -50,25 +50,25 @@ const sentenceExample = [
 		},
 	},
 	{
-		type: "verb",
-		verbType: "ichidan",
-		value: "食べ",
-		base: undefined,
-		conjugation: {
-			type: "verbConjugation",
-			value: "させ",
-
-			conjugation: {
-				type: "verbConjugation",
-				value: "られ",
-
-				conjugation: {
-					type: "verbConjugation",
-					value: "な",
-
-					conjugation: {
-						type: "verbConjugation",
-						value: "かった",
+		characters: "食べ",
+		ending: "る",
+		next: {
+			characters: "させ",
+			ending: "る",
+			next: {
+				characters: "られ",
+				ending: "る",
+				next: {
+					characters: "た",
+					ending: "い",
+					next: {
+						characters: "くな",
+						ending: "い",
+						next: {
+							characters: "かった",
+							ending: null,
+							next: {},
+						},
 					},
 				},
 			},
@@ -81,8 +81,29 @@ export default function App() {
 	const [addedElements, setAddedElements] = useState([
 		{
 			type: "verb",
-			value: "食べ",
-			conjugation: { type: "る", value: "る" },
+			characters: "食べ",
+			ending: "る",
+			next: {
+				characters: "させ",
+				ending: "る",
+				next: {
+					characters: "られ",
+					ending: "る",
+					next: {
+						characters: "た",
+						ending: "い",
+						next: {
+							characters: "くな",
+							ending: "い",
+							next: {
+								// characters: "かった",
+								// ending: null,
+								// next: {},
+							},
+						},
+					},
+				},
+			},
 		},
 	])
 	const [sentenceString, setSentenceString] = useState("")
@@ -118,10 +139,20 @@ export default function App() {
 			}
 		}
 
-		function verb(element) {
-			if (element.value) string += element.value
-			if (element.conjugation?.type === "adjective") adjective(element.conjugation)
-			else if (element.conjugation?.type === "verbConjugation") verb(element.conjugation)
+		function verb(verb) {
+			function build(node) {
+				if (!node) return ""
+
+				// if there is another conjugation after this
+				if (node.next) {
+					return (node.characters || "") + build(node.next)
+				}
+
+				// last node
+				return (node.characters || "") + (node.ending || "")
+			}
+
+			string += build(verb.stem)
 		}
 
 		function noun(element) {
