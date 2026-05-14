@@ -7,74 +7,7 @@ import Verb from "./elements/Verb"
 import Particle from "./elements/Particle"
 import useElementsStore from "./useElementsStore"
 import Element from "./elements/Element"
-
-const sentenceExample = [
-	{
-		type: "noun",
-		value: "伝道",
-		prefix: undefined,
-		suffix: "中",
-		particle: "に",
-	},
-	{
-		type: "noun",
-		value: "わたし",
-		prefix: undefined,
-		suffix: undefined,
-		particle: "は",
-	},
-	{
-		type: "adjective",
-		value: "早",
-		conjugation: {
-			type: "adjectiveConjugation",
-			value: "く",
-		},
-	},
-	{
-		type: "verb",
-		verbType: "godan",
-		value: "帰",
-		base: "り",
-		conjugation: {
-			type: "adjective",
-			value: "た",
-			conjugation: {
-				type: "adjective",
-				value: "くな",
-				conjugation: {
-					type: "adjectiveConjugation",
-					value: "かった",
-				},
-			},
-		},
-	},
-	{
-		characters: "食べ",
-		ending: "る",
-		next: {
-			characters: "させ",
-			ending: "る",
-			next: {
-				characters: "られ",
-				ending: "る",
-				next: {
-					characters: "た",
-					ending: "い",
-					next: {
-						characters: "くな",
-						ending: "い",
-						next: {
-							characters: "かった",
-							ending: null,
-							next: {},
-						},
-					},
-				},
-			},
-		},
-	},
-]
+import verbs from "./verbs.json"
 
 export default function App() {
 	const [mouse, setMouse] = useState({ x: 0, y: 0 })
@@ -82,10 +15,7 @@ export default function App() {
 		// {
 		// 	type: "verb",
 		// 	characters: "食べ",
-		// 	stem: {
-		// 		ending: null,
-		// 		characters: "る",
-		// 		next: {
+		// 	next: {
 		// 			characters: "させ",
 		// 			ending: "る",
 		// 			next: {
@@ -112,11 +42,11 @@ export default function App() {
 	const [sentenceString, setSentenceString] = useState("")
 	const allElements = useElementsStore((state) => state)
 	const defaultElements = {
-		noun: allElements.noun,
-		verb: allElements.verb,
-		adjective: allElements.adjective,
-		punctuation: allElements.punctuation,
-		coupla: allElements.coupla,
+		// noun: allElements.noun,
+		verbs: verbs,
+		// adjective: allElements.adjective,
+		// punctuation: allElements.punctuation,
+		// coupla: allElements.coupla,
 	}
 
 	useEffect(() => {
@@ -142,25 +72,21 @@ export default function App() {
 			}
 		}
 
-		function verb(verb) {
-			function build(node) {
-				if (!node) return ""
+		function verb(node) {
+			if (!node) return
 
-				// if there is another conjugation after this
-				if (node.next) {
-					return (node.characters || "") + build(node.next)
-				}
+			string += node.stem || ""
 
-				// last node
-				return (node.characters || "") + (node.ending || "")
+			if (node.next && Object.keys(node.next).length > 0) {
+				verb(node.next)
+			} else {
+				string += node.ending || ""
 			}
-
-			string += build(verb.stem)
 		}
 
 		function noun(element) {
 			if (element.prefix) string += element.prefix
-			if (element.value) string += element.value
+			if (element.text) string += element.text
 			if (element.suffix) string += element.suffix
 			if (element.particle) string += element.particle
 		}
@@ -170,14 +96,52 @@ export default function App() {
 			else if (element?.type === "adjective") adjective(element)
 			else if (element?.type === "verb") verb(element)
 		})
-
+		// alert(JSON.stringify(string))
 		setSentenceString(string)
 	}
 
-	function addElement(index, element) {
+	function initializeElement(element) {
+		switch (element.value.type) {
+			case "noun":
+				return {
+					type: "noun",
+					text: element.value,
+				}
+			case "verb":
+				// alert(
+				// 	JSON.stringify({
+				// 		...element.value,
+				// 		next: {
+				// 			stem: element.value.ending,
+				// 			ending: null,
+				// 			next: {},
+				// 		},
+				// 	}),
+				// )
+				if (element.value.verbType === "godan") {
+					return {
+						...element.value,
+						next: {},
+					}
+				} else {
+					return {
+						...element.value,
+						next: {
+							stem: element.value.ending,
+							ending: null,
+							next: {},
+						},
+					}
+				}
+			default:
+			// alert(JSON.stringify(element))
+		}
+	}
+
+	function addElement(index, selectedElement) {
 		setAddedElements((prev) => {
 			const copy = [...prev]
-			copy.splice(index, 0, element)
+			copy.splice(index, 0, initializeElement(selectedElement))
 			return copy
 		})
 	}
@@ -214,7 +178,7 @@ export default function App() {
 						<AddButton
 							mouse={mouse}
 							elements={defaultElements}
-							addElement={(element) => addElement(index, element)}
+							addElement={(selectedElement) => addElement(index, selectedElement)}
 						/>
 						<Element
 							element={element}

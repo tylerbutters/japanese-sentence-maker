@@ -39,86 +39,174 @@ const useElementsStore = create((set) => ({
 	suffix: ["間", "中", "後", "前", "回"],
 	particle: ["は", "が", "を", "に", "で", "の", "と", "も", "へ", "から"],
 
-	ichidanConjugations: {
-		default: ["ない", "たい", "た", "て", "られる", "させる"],
-		ない: ["かった", "くて"],
-		くない: ["い", "かった"],
-		たい: ["ない", "かった"],
-
-		た: [],
-
-		て: ["いる", "おく"],
-
-		られる: ["ない", "たい"],
-
-		させる: ["られる", "ない"],
-	},
 	conjugations: {
-		default: ["ない", "たい", "た", "て", "られる", "させる"],
-
-		ない: {
-			characters: "な",
-			ending: "い",
-			conjugationOptions: ["かった", "くて"],
-		},
-
-		たい: {
-			characters: "た",
-			ending: "い",
-			conjugationOptions: ["ない", "かった"],
-		},
-
-		た: {
-			characters: "た",
+		//suru
+		する: {
+			stem: "する",
 			ending: null,
-			conjugationOptions: ["て", "り"],
+			conjugationOptions: [
+				"した",
+				"して",
+				"される",
+				"させる",
+				"できる",
+				"しない",
+				"する",
+				"したい",
+				"しよう",
+				"ます",
+				"せず",
+			],
 		},
-
-		て: {
-			characters: "て",
+		される: {
+			stem: "され",
+			ending: "る",
+			conjugationOptions: ["ない", "ます", "た", "よう"],
+		},
+		しない: {
+			stem: "しな",
+			ending: "い",
+			conjugationOptions: ["い", "かった"],
+		},
+		したい: {
+			stem: "した",
+			ending: "い",
+			conjugationOptions: ["くない", "かった"],
+		},
+		できる: {
+			stem: "でき",
+			ending: "る",
+			conjugationOptions: ["ない", "たい", "た", "たり", "て", "よう", "ます", "ず"],
+		},
+		しよう: {
+			stem: "しよう",
 			ending: null,
-			conjugationOptions: ["いる", "おく"],
+			conjugationOptions: [],
 		},
-
+		ぜず: {
+			stem: "ず",
+			ending: null,
+			conjugationOptions: [],
+		},
+		//suru and ichidan
+		させる: {
+			stem: "させ",
+			ending: "る",
+			conjugationOptions: ["ない", "ます", "た", "よう"],
+		},
+		//ichidan
+		ichidanDefault: {
+			stem: "る",
+			ending: null,
+			conjugationOptions: [
+				"ない",
+				"たい",
+				"た",
+				"たり",
+				"て",
+				"られる",
+				"させる",
+				"よう",
+				"ます",
+				"ず",
+			],
+		},
 		られる: {
-			characters: "られ",
+			stem: "られ",
 			ending: "る",
 			conjugationOptions: ["ない", "たい"],
 		},
-
-		させる: {
-			characters: "させ",
+		れば: {
+			stem: "れば",
+			ending: null,
+			conjugationOptions: [],
+		},
+		//godan
+		godanDefault: {
+			B1: ["ない", "れる", "せる", "ず"],
+			B2: [],
+			B3: [],
+			B4: ["ば", "る"],
+			B5: ["う"],
+			Bte: ["て"],
+			Bta: ["た"],
+		},
+		る: {
+			stem: null,
 			ending: "る",
-			conjugationOptions: ["られる", "たい", "ない"],
+			conjugationOptions: ["ない", "ます", "た", "よう"],
+		},
+		せる: {
+			stem: "せ",
+			ending: "る",
+			conjugationOptions: ["ない", "たい", "た", "たり", "て", "よう", "ます", "ず"],
+		},
+		う: {
+			stem: "う",
+			ending: null,
+			conjugationOptions: [],
+		},
+		ば: {
+			stem: "ば",
+			ending: null,
+			conjugationOptions: [],
+		},
+		//ichidan and godan
+		ない: {
+			stem: "な",
+			ending: "い",
+			conjugationOptions: ["かった", "くて", "く"],
+		},
+		たい: {
+			stem: "た",
+			ending: "い",
+			conjugationOptions: ["くない", "かった", "くて", "く"],
+		},
+		ず: {
+			stem: "ず",
+			ending: null,
+			conjugationOptions: [],
+		},
+		た: {
+			stem: "た",
+			ending: null,
+			conjugationOptions: [],
+		},
+
+		て: {
+			stem: "て",
+			ending: null,
+			conjugationOptions: [],
 		},
 
 		く: {
-			characters: "く",
+			stem: "く",
 			ending: null,
-			conjugationOptions: ["ない", "て"],
+			conjugationOptions: [],
 		},
 
 		くない: {
-			characters: "くな",
+			stem: "くな",
 			ending: "い",
 			conjugationOptions: ["かった", "くて"],
 		},
 
 		かった: {
-			characters: "かった",
+			stem: "かった",
 			ending: null,
 			conjugationOptions: [],
 		},
-	},
 
-	godanConjugations: {
-		B1: ["ない", "れる", "せる", "ず"],
-		B2: [],
-		B3: [],
-		B4: ["ば", "る"],
-		B5: ["う"],
-		Bte: ["て"],
-		Bta: ["た"],
+		ます: {
+			stem: "ま",
+			ending: "す",
+			conjugationOptions: ["した", "せん"],
+		},
+		よう: {
+			stem: "よう",
+			ending: null,
+			conjugationOptions: [],
+		},
 	},
 	adjectiveConjugations: ["くない", "かった", "くなかった", "く"],
 	punctuation: ["、", "。"],

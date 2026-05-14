@@ -12,55 +12,78 @@ export default function Noun({ mouse, element, onClickSelf, replaceElement }) {
 	const [particle, setParticle] = useState(null)
 	const [isOpen, setIsOpen] = useState(false)
 	const allElements = useElementsStore((state) => state)
+	const prefixElements = {
+		prefix: allElements.prefix,
+	}
+	const suffixElements = {
+		suffix: allElements.suffix,
+	}
+	const particleElements = {
+		particle: allElements.particle,
+	}
 	const defaultElements = {
 		noun: allElements.noun,
 		verb: allElements.verb,
 		adjective: allElements.adjective,
 	}
 
-	function addElement(newElement) {
-		let newItem
-
-		if (newElement.type === "prefix") {
-			newItem = { ...element, prefix: newElement.value }
-		} else if (newElement.type === "suffix") {
-			newItem = { ...element, suffix: newElement.value }
-		} else if (newElement.type === "particle") {
-			newItem = { ...element, particle: newElement.value }
+	function addElement(selectedElement) {
+		switch (selectedElement.type) {
+			case "prefix":
+				replaceElement({ ...element, prefix: selectedElement.value })
+				return
+			case "suffix":
+				replaceElement({ ...element, suffix: selectedElement.value })
+				return
+			case "particle":
+				replaceElement({ ...element, particle: selectedElement.value })
+				return
 		}
-		replaceElement(newItem)
-	}
-	return (
+    }
+    
+    return (
 		<div className="baseElement nounElement">
 			{element.prefix ? (
 				<SuffixPrefix
-					value={element.prefix}
-					elements={allElements.prefix}
-					replaceElement={addElement}
+					text={element.prefix}
+					elements={prefixElements}
+					replaceElement={(newElement) => addElement(newElement, "prefix")}
 				/>
 			) : (
-				<AddButton mouse={mouse} elements={allElements.prefix} addElement={addElement} />
+				<AddButton
+					mouse={mouse}
+					elements={prefixElements}
+					addElement={(newElement) => addElement(newElement, "suffix")}
+				/>
 			)}
 			<div className="elementText" onClick={onClickSelf}>
-				{element?.value}
+				{element?.text}
 			</div>
 			{element.suffix ? (
 				<SuffixPrefix
-					value={element.suffix}
-					elements={allElements.suffix}
-					replaceElement={addElement}
+					text={element.suffix}
+					elements={suffixElements}
+					replaceElement={(newElement) => addElement(newElement, "suffix")}
 				/>
 			) : (
-				<AddButton mouse={mouse} elements={allElements.suffix} addElement={addElement} />
+				<AddButton
+					mouse={mouse}
+					elements={suffixElements}
+					addElement={(newElement) => addElement(newElement, "suffix")}
+				/>
 			)}
 			{element.particle ? (
 				<Particle
-					value={element.particle}
-					elements={allElements.particle}
-					replaceElement={addElement}
+					text={element.particle}
+					elements={particleElements}
+					replaceElement={(newElement) => addElement(newElement, "particle")}
 				/>
 			) : (
-				<AddButton mouse={mouse} elements={allElements.particle} addElement={addElement} />
+				<AddButton
+					mouse={mouse}
+					elements={particleElements}
+					addElement={(newElement) => addElement(newElement, "suffix")}
+				/>
 			)}
 		</div>
 	)

@@ -3,7 +3,7 @@ import "../App.css"
 import AddButton from "../AddButton"
 import AddElementModal from "../AddElementModal"
 
-export default function SuffixPrefix({ elements, value, replaceElement }) {
+export default function SuffixPrefix({ elements, text, replaceElement }) {
 	const [isModalOpen, setIsModalOpen] = useState()
 
 	return (
@@ -15,7 +15,7 @@ export default function SuffixPrefix({ elements, value, replaceElement }) {
 				onSelect={replaceElement}
 			/>
 			<div className="baseInsideElement suffixPrefixElement" onClick={() => setIsModalOpen(true)}>
-				<div className=" elementText">{value}</div>
+				<div className="insideElementText">{text}</div>
 			</div>
 		</div>
 	)

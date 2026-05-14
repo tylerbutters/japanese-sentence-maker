@@ -119,13 +119,17 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	font-size: 40px;
 	height: 80px;
 	/* padding: 0 0 0 5px; */
 	/* overflow: hidden; */
 	border-radius: 5px;
 	cursor: pointer;
 }
+.insideElementText {
+	font-size: 40px;
+	margin: 0 5px 0 5px;
+}
+
 .particleElement {
 	background: green;
 }
@@ -135,11 +139,15 @@
 .adjectiveLastChar {
 	background-color: purple;
 }
-.verbLastChar {
+
+.godanEnding {
+	background-color: green;
+}
+.conjugation {
 	background-color: darkblue;
 	border: 1px solid red;
 }
-.stemEnding {
+.conjugationEnding {
 	background-color: red;
 }
 

@@ -10,13 +10,13 @@ export default function AddElementModal({
 	deleteElement,
 }) {
 	const modalRef = useRef(null)
-	const [selectedElement, setSelectedElement] = useState(null)
+	const [selectedType, setSelectedType] = useState()
 
 	useEffect(() => {
 		function handleClickOutside(e) {
 			if (isModalOpen && modalRef.current && !modalRef.current.contains(e.target)) {
 				setIsModalOpen(false)
-				setSelectedElement(null)
+				setSelectedType(null)
 			}
 		}
 
@@ -24,15 +24,17 @@ export default function AddElementModal({
 		return () => document.removeEventListener("mousedown", handleClickOutside)
 	}, [isModalOpen])
 
-	useEffect(() => {
-		if (Object.keys(elements).length === 1) {
-			const onlyKey = Object.keys(elements)[0]
-			setSelectedElement(onlyKey)
-		}
-	}, [elements])
+	// useEffect(() => {
+	// 	if (Object.keys(elements).length === 1) {
+	// 		const onlyKey = Object.keys(elements)[0]
+	// 		setSelectedType(onlyKey)
+	// 	}
+	// }, [elements])
 
-	function onClickElement(value) {
-		onSelect({ type: selectedElement, value: value })
+	function onClickElement(selectedValue) {
+		// alert(JSON.stringify(selectedValue))
+		onSelect({ type: selectedType, value: selectedValue })
+		setSelectedType()
 		setIsModalOpen(false)
 	}
 
@@ -41,7 +43,16 @@ export default function AddElementModal({
 		setIsModalOpen(false)
 	}
 
-	if (!isModalOpen) return null
+	function onClickOption(option) {
+		// alert(JSON.stringify(elements[option]))
+		if (Array.isArray(elements[option]) && elements[option].length !== 0) {
+			setSelectedType(option)
+		} else {
+			onClickElement(option)
+		}
+	}
+
+	if (!isModalOpen || !elements) return null
 
 	if (Array.isArray(elements)) {
 		return (
@@ -81,15 +92,15 @@ export default function AddElementModal({
 			}}
 		>
 			{/* SECOND STEP MODAL */}
-			{selectedElement && (
+			{selectedType && (
 				<div className="secondModal">
-					{elements[selectedElement]?.map((value) => (
+					{elements[selectedType]?.map((value) => (
 						<button
 							className="addElementModalButton"
-							key={value}
+							key={value.word}
 							onClick={() => onClickElement(value)}
 						>
-							{value}
+							{value.word || value}
 						</button>
 					))}
 				</div>
@@ -97,11 +108,12 @@ export default function AddElementModal({
 
 			{/* FIRST MODAL */}
 			<div className="addElementModal">
-				{Object.keys(elements).map((el) => (
-					<button className="addElementModalButton" key={el} onClick={() => setSelectedElement(el)}>
-						{el}
-					</button>
-				))}
+				{elements &&
+					Object.keys(elements).map((el) => (
+						<view className="addElementModalButton" key={el} onClick={() => onClickOption(el)}>
+							{el}
+						</view>
+					))}
 				{isElement && (
 					<button style={{ backgroundColor: "red", color: "white" }} onClick={onClickDelete}>
 						Delete
