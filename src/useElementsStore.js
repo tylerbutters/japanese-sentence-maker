@@ -53,23 +53,62 @@ const useElementsStore = create((set) => ({
 
 		させる: ["られる", "ない"],
 	},
-	oldIchidanConjugations: {
-		default: ["る", "な", "た", "られる", "させる", "ろ", "よう", "て", "た"],
+	conjugations: {
+		default: ["ない", "たい", "た", "て", "られる", "させる"],
 
-		な: ["い", "く", "くな", "かった"],
+		ない: {
+			characters: "な",
+			ending: "い",
+			conjugationOptions: ["かった", "くて"],
+		},
 
-		かった: [],
+		たい: {
+			characters: "た",
+			ending: "い",
+			conjugationOptions: ["ない", "かった"],
+		},
 
-		た: ["い", "くな", "かった"],
+		た: {
+			characters: "た",
+			ending: null,
+			conjugationOptions: ["て", "り"],
+		},
 
-		られ: ["る", "たい", "ない"],
-		させ: ["る", "られ", "た", "な"],
+		て: {
+			characters: "て",
+			ending: null,
+			conjugationOptions: ["いる", "おく"],
+		},
 
-		れば: [],
-		ろ: [],
-		よう: [],
-		て: [],
-		た: [],
+		られる: {
+			characters: "られ",
+			ending: "る",
+			conjugationOptions: ["ない", "たい"],
+		},
+
+		させる: {
+			characters: "させ",
+			ending: "る",
+			conjugationOptions: ["られる", "たい", "ない"],
+		},
+
+		く: {
+			characters: "く",
+			ending: null,
+			conjugationOptions: ["ない", "て"],
+		},
+
+		くない: {
+			characters: "くな",
+			ending: "い",
+			conjugationOptions: ["かった", "くて"],
+		},
+
+		かった: {
+			characters: "かった",
+			ending: null,
+			conjugationOptions: [],
+		},
 	},
 
 	godanConjugations: {

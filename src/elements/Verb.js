@@ -7,23 +7,26 @@ export default function Verb({ element, onClickSelf, replaceElement }) {
 	const [isModalOpen, setIsModalOpen] = useState(false)
 	const allElements = useElementsStore((state) => state)
 
-	// useEffect(() => {
-	// 	if (!element.conjugation) {
-	// 		const stem = element?.value.slice(0, -1)
-	// 		replaceElement({ ...element, value: stem, conjugation: { type: "る", value: "る" } })
-	// 	}
-	// 	// alert(JSON.stringify(ichidanConjugations))
-	// }, [])
+	useEffect(() => {
+		const alreadyInitialized = element?.characters && element?.next
 
-	function updateConjugation(newConjugation) {
-		if (newConjugation.value === "られる") {
-			newConjugation = { type: newConjugation.value, value: "られ", conjugation: { value: "る" } }
-		} else if (newConjugation.value === "させる") {
-			newConjugation = { type: newConjugation.value, value: "させ", conjugation: { value: "る" } }
-		}
-		replaceElement({ ...element, conjugation: newConjugation })
-		// alert(JSON.stringify({ ...element, conjugation: newConjugation }))
-	}
+		if (alreadyInitialized) return
+
+		if (!element?.value) return
+
+		const characters = element.value.slice(0, -1)
+		const ending = element.value.at(-1)
+
+		replaceElement({
+			type: "verb",
+			characters,
+			next: {
+				characters: ending,
+				ending: null,
+				next: {},
+			},
+		})
+	}, [element, replaceElement])
 
 	return (
 		<div className="baseElement verbElement">
@@ -49,7 +52,12 @@ function Stem({ parentStem, updateStem }) {
 	const stem = parentStem?.next
 
 	// useEffect(() => {
-	// 	alert(JSON.stringify(stem.next))
+	// 	alert(
+	// 		`${JSON.stringify(`${parentStem?.characters}${parentStem?.ending}`)}${
+	// 			allElements?.conjugations?.[`${parentStem?.characters}${parentStem?.ending}`]
+	// 				?.conjugationOptions
+	// 		}`,
+	// 	)
 	// }, [])
 
 	// function updateConjugation(newConjugation) {
@@ -64,17 +72,14 @@ function Stem({ parentStem, updateStem }) {
 	// 	})
 	// }
 	// useEffect(() => {
-	// 	alert(JSON.stringify(stem.next))
-	// }, [])
+	// 	alert(JSON.stringify(allElements?.conjugations.default))
+	// }, [allElements.conjugations.default])
 
 	function getStemToReplace(selectedStem) {
-		let newCharacters = selectedStem.value.slice(0, -1)
-		let newEnding = selectedStem.value.slice(-1)
-
 		updateStem({
 			...stem,
-			characters: newCharacters,
-			ending: newEnding,
+			characters: allElements.conjugations[selectedStem.value].characters,
+			ending: allElements.conjugations[selectedStem.value].ending,
 			next: {},
 		})
 	}
@@ -85,10 +90,8 @@ function Stem({ parentStem, updateStem }) {
 				isModalOpen={isModalOpen}
 				setIsModalOpen={setIsModalOpen}
 				elements={
-					parentStem.type === "verb"
-						? allElements.ichidanConjugations.default
-						: allElements.ichidanConjugations[`${parentStem?.characters}${parentStem?.ending}`] ||
-							[]
+					allElements?.conjugations?.[`${parentStem?.characters}${parentStem?.ending}`]
+						?.conjugationOptions || allElements.conjugations.default
 				}
 				onSelect={getStemToReplace}
 			/>
@@ -132,8 +135,8 @@ function StemEnding({ stem, addStem }) {
 	function onSelect(selected) {
 		addStem({
 			next: {
-				characters: selected.value.slice(0, -1),
-				ending: selected.value.slice(-1),
+				characters: allElements.conjugations[selected.value].characters,
+				ending: allElements.conjugations[selected.value].ending,
 			},
 		})
 	}

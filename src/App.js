@@ -79,32 +79,35 @@ const sentenceExample = [
 export default function App() {
 	const [mouse, setMouse] = useState({ x: 0, y: 0 })
 	const [addedElements, setAddedElements] = useState([
-		{
-			type: "verb",
-			characters: "食べ",
-			ending: "る",
-			next: {
-				characters: "させ",
-				ending: "る",
-				next: {
-					characters: "られ",
-					ending: "る",
-					next: {
-						characters: "た",
-						ending: "い",
-						next: {
-							characters: "くな",
-							ending: "い",
-							next: {
-								// characters: "かった",
-								// ending: null,
-								// next: {},
-							},
-						},
-					},
-				},
-			},
-		},
+		// {
+		// 	type: "verb",
+		// 	characters: "食べ",
+		// 	stem: {
+		// 		ending: null,
+		// 		characters: "る",
+		// 		next: {
+		// 			characters: "させ",
+		// 			ending: "る",
+		// 			next: {
+		// 				characters: "られ",
+		// 				ending: "る",
+		// 				next: {
+		// 					characters: "た",
+		// 					ending: "い",
+		// 					next: {
+		// 						characters: "くな",
+		// 						ending: "い",
+		// 						next: {
+		// 							characters: "かった",
+		// 							ending: null,
+		// 							next: {},
+		// 						},
+		// 					},
+		// 				},
+		// 			},
+		// 		},
+		// 	},
+		// },
 	])
 	const [sentenceString, setSentenceString] = useState("")
 	const allElements = useElementsStore((state) => state)
