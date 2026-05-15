@@ -63,9 +63,10 @@ function Conjugation({ parentConjugation, updateConjugation }) {
 			case "suru":
 				// alert(JSON.stringify(allElements?.conjugations?.["する"].conjugationOptions))
 				return allElements?.conjugations?.["する"].conjugationOptions || []
+			case "kuru":
+				return allElements?.conjugations?.["くる"].conjugationOptions || []
 			case "ichidan":
 				return allElements?.conjugations?.["ichidanDefault"].conjugationOptions || []
-				return
 			case "godan":
 				return getGodanElements()
 			default:

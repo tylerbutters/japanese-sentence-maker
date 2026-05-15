@@ -90,17 +90,15 @@ for (const entry of entries) {
 	// SURU
 	if (verbType === "suru") {
 		ending = "する"
-
-		stem = word.slice(0, -2)
-		stemKana = kana.slice(0, -2)
+		stem = ""
+		stemKana = ""
 	}
 
 	// KURU
 	else if (verbType === "kuru") {
 		ending = "くる"
-
-		stem = word === "来る" ? "来" : word.slice(0, -2)
-		stemKana = kana.slice(0, -2)
+		stem = ""
+		stemKana = ""
 	}
 
 	// GODAN / ICHIDAN

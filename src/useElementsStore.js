@@ -40,12 +40,76 @@ const useElementsStore = create((set) => ({
 	particle: ["は", "が", "を", "に", "で", "の", "と", "も", "へ", "から"],
 
 	conjugations: {
+		//kuru
+		くる: {
+			stem: "くる",
+			ending: null,
+			conjugationOptions: [
+				"こない",
+				"くれば",
+				"こられる",
+				"こい",
+				"こよう",
+				"たら",
+				"こさせる",
+				"きて",
+				"きた",
+				"きます",
+				"きたい",
+			],
+		},
+		こない: {
+			stem: "こな",
+			ending: "い",
+			conjugationOptions: ["い", "かった"],
+		},
+		きた: {
+			stem: "きた",
+			ending: null,
+			conjugationOptions: [],
+		},
+		きて: {
+			stem: "して",
+			ending: null,
+			conjugationOptions: [],
+		},
+		きたい: {
+			stem: "きた",
+			ending: "い",
+			conjugationOptions: ["くない", "かった"],
+		},
+		こられる: {
+			stem: "こられ",
+			ending: "る",
+			conjugationOptions: ["ない", "たい", "た", "たり", "て", "よう", "ます", "ず"],
+		},
+		こよう: {
+			stem: "こよう",
+			ending: null,
+			conjugationOptions: [],
+		},
+		きます: {
+			stem: "きま",
+			ending: "す",
+			conjugationOptions: ["せん", "した", "して"],
+		},
+		くれば: {
+			stem: "くれば",
+			ending: null,
+			conjugationOptions: [],
+		},
+		こさせる: {
+			stem: "こさせ",
+			ending: "る",
+			conjugationOptions: ["ない", "ます", "た", "よう", "られる"],
+		},
 		//suru
 		する: {
 			stem: "する",
 			ending: null,
 			conjugationOptions: [
 				"した",
+				"します",
 				"して",
 				"される",
 				"させる",
@@ -56,6 +120,7 @@ const useElementsStore = create((set) => ({
 				"しよう",
 				"ます",
 				"せず",
+				"すれば",
 			],
 		},
 		される: {
@@ -70,6 +135,11 @@ const useElementsStore = create((set) => ({
 		},
 		した: {
 			stem: "した",
+			ending: null,
+			conjugationOptions: [],
+		},
+		すれば: {
+			stem: "すれば",
 			ending: null,
 			conjugationOptions: [],
 		},
