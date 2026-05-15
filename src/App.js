@@ -164,7 +164,16 @@ export default function App() {
 
 	return (
 		<div className="app">
-			<div style={{ color: "white", display: "flex", flexDirection: "row", marginBottom: 20 }}>
+			<div
+				style={{
+					color: "white",
+					display: "flex",
+					position: "absolute",
+					flexDirection: "row",
+					marginBottom: 200,
+					fontSize: 30,
+				}}
+			>
 				{sentenceString}
 			</div>
 			{/* <div style={{ color: "white", display: "flex", flexDirection: "row", marginBottom: 20 }}>

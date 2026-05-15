@@ -2,13 +2,11 @@ import { useEffect, useState, useRef } from "react"
 import "./App.css"
 
 export default function AddElementModal({
-	isElement,
 	isModalOpen,
 	setIsModalOpen,
 	onSelect,
 	elements,
 	hasSearch,
-	deleteElement,
 }) {
 	const modalRef = useRef(null)
 	const [selectedCategory, setSelectedCategory] = useState()
@@ -43,11 +41,6 @@ export default function AddElementModal({
 		)
 
 		setElementResults(newResults)
-	}
-
-	function onClickDelete() {
-		deleteElement()
-		closeModal()
 	}
 
 	function onClickElement(selectedValue) {
@@ -133,11 +126,6 @@ export default function AddElementModal({
 							{category}
 						</div>
 					))}
-				{isElement && (
-					<div className="addElementModalButton deleteButton" onClick={onClickDelete}>
-						Delete
-					</div>
-				)}
 			</div>
 		</div>
 	)

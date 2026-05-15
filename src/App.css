@@ -61,11 +61,31 @@
 	background: black;
 	color: white;
 }
-.deleteButton {
-	background-color: red;
-	color: white;
+
+.deleteElementButtonBoundary {
+	position: absolute;
+	margin-top: 30px;
+	height: 50px;
+	width: 50px;
+	justify-self: center;
 }
-.deleteButton:hover {
+.deleteElementButton {
+	position: absolute;
+	margin-top: 30px;
+	background-color: red;
+	display: flex;
+	font-size: 20px;
+	justify-self: center;
+	align-items: center;
+	justify-content: center;
+	width: 30px;
+	height: 30px;
+	border-radius: 99px;
+	color: white;
+	cursor: pointer;
+	transition: bottom 0.3s ease;
+}
+.deleteElementButton:hover {
 	background-color: darkred;
 }
 
@@ -123,6 +143,8 @@
 
 .baseElement {
 	display: flex;
+	z-index: 999;
+	position: relative;
 	gap: 5px;
 	align-items: center;
 	justify-content: center;
