@@ -24,7 +24,7 @@ export default function Conjugation({
 		setConjugationOptions(getConjugationOptions())
 	}, [parentConjugation])
 
-	function getGodanElements() {
+	function getGodanConjugationOptions() {
 		const godanMap = {
 			く: ["か", "き", "く", "け", "こ", "いて", "いた"],
 			ぐ: ["が", "ぎ", "ぐ", "げ", "ご", "いで", "いだ"],
@@ -172,13 +172,13 @@ export default function Conjugation({
 				return
 			default:
 				//godan, godan-iku, godan-aru
-				return getGodanElements()
+				return getGodanConjugationOptions()
 		}
 	}
 
 	function onSelectConjugationChange(selectedConjugation) {
 		// alert(JSON.stringify(selectedConjugation))
-		const conjugationData = verbConjugations[selectedConjugation.text]
+		let conjugationData = verbConjugations[selectedConjugation.text]
 
 		//its a verb or adj
 		if (!conjugationData) {
@@ -238,6 +238,9 @@ export default function Conjugation({
 				})
 			}
 		} else {
+			if (selectedConjugation.text === "る") {
+				conjugationData = verbConjugations["ichidanDefault"]
+			}
 			// alert(JSON.stringify(selectedConjugation))
 
 			// //if its an te verb or b2
