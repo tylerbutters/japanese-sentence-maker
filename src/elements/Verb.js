@@ -10,6 +10,8 @@ export default function Verb({ element, updateElement, deleteElement, mouse, ele
 	}, [])
 
 	function initializeVerb(newElement) {
+		// alert(JSON.stringify(element))
+
 		updateElement({
 			...newElement,
 			conjugation: {

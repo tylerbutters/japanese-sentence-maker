@@ -93,14 +93,17 @@ function ElementListItemContainer({ hasSearch, elementOptions, onClickElement, s
 	const filteredOptions = useMemo(() => {
 		if (!searchText) return elementOptions
 		const query = searchText.toLowerCase()
-		return elementOptions.filter((e) => e.text.toLowerCase().startsWith(query))
+		return elementOptions.filter((e) => e?.text.startsWith(searchText))
 	}, [elementOptions, searchText])
+
 	const visibleOptions = useMemo(() => {
 		return filteredOptions.slice(0, visibleCount)
 	}, [filteredOptions, visibleCount])
+
 	useEffect(() => {
 		setVisibleCount(PAGE_SIZE)
 	}, [searchText, elementOptions])
+
 	useEffect(() => {
 		const observer = new IntersectionObserver(
 			(entries) => {
@@ -141,12 +144,12 @@ function ElementListItemContainer({ hasSearch, elementOptions, onClickElement, s
 						key={index}
 						className="addElementModalButton"
 						style={{
-							backgroundColor: selectedCategory === element.text ? "black" : undefined,
-							color: selectedCategory === element.text ? "white" : undefined,
+							backgroundColor: selectedCategory === element?.text ? "black" : undefined,
+							color: selectedCategory === element?.text ? "white" : undefined,
 						}}
 						onClick={() => onClickElement(element)}
 					>
-						{element.text}
+						{element?.text}
 					</div>
 				))}
 				{/* sentinel triggers loading more */}

@@ -12,17 +12,6 @@ export default function Noun({ mouse, element, onClickSelf, updateElement }) {
 	const allElements = useElementsStore((state) => state)
 	const prefixOptions = dictionary.prefixes
 	const suffixOptions = dictionary.suffixes
-	const [particleOptions, setParticleOptions] = useState([])
-
-	useEffect(() => {
-		const availableParticles = allElements.particles.filter((particle) =>
-			particle.attachesTo.includes("noun"),
-		)
-		// alert(JSON.stringify(availableParticles.map((particle) => ({ text: particle.text }))))
-		setParticleOptions(
-			availableParticles.map((particle) => ({ elementType: "particle", text: particle.text })),
-		)
-	}, [])
 
 	function addElement(selectedElement) {
 		// alert(JSON.stringify(selectedElement))
@@ -32,9 +21,6 @@ export default function Noun({ mouse, element, onClickSelf, updateElement }) {
 				return
 			case "suffix":
 				updateElement({ ...element, suffix: selectedElement })
-				return
-			case "particle":
-				updateElement({ ...element, particle: selectedElement })
 				return
 		}
 	}
@@ -46,9 +32,6 @@ export default function Noun({ mouse, element, onClickSelf, updateElement }) {
 				return
 			case "suffix":
 				updateElement({ ...element, suffix: null })
-				return
-			case "particle":
-				updateElement({ ...element, particle: null })
 				return
 		}
 	}
@@ -84,21 +67,6 @@ export default function Noun({ mouse, element, onClickSelf, updateElement }) {
 				<AddButton
 					mouse={mouse}
 					elementOptions={suffixOptions}
-					addElement={addElement}
-					hasSearch={true}
-				/>
-			)}
-			{element.particle ? (
-				<Particle
-					element={element.particle}
-					elementOptions={particleOptions}
-					updateElement={addElement}
-					deleteElement={deleteElement}
-				/>
-			) : (
-				<AddButton
-					mouse={mouse}
-					elementOptions={particleOptions}
 					addElement={addElement}
 					hasSearch={true}
 				/>

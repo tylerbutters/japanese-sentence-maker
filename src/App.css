@@ -132,36 +132,32 @@
 	font-size: 40px;
 }
 
-.baseElement {
+.elementContainer {
 	display: flex;
 	z-index: 999;
 	border: 1px solid white;
 	position: relative;
-	gap: 5px;
+	align-items: center;
+	justify-content: center;
+	height: 80px;
+	border-radius: 10px;
+	/* padding: 0 10px; */
+	cursor: pointer;
+}
+.baseElement {
+	display: flex;
+	z-index: 999;
+	height: 80px;
+	flex: 1;
+	/* border: 1px solid white; */
+	position: relative;
 	align-items: center;
 	justify-content: center;
 
 	border-radius: 10px;
-	padding: 0 10px;
-	margin: 0 2.5px;
+	/* padding: 0 10px; */
+	/* margin: 0 2.5px; */
 	cursor: pointer;
-}
-
-.nounElement {
-	background: red;
-}
-.adjectiveElement {
-	background: magenta;
-}
-.verbElement {
-	background: blue;
-}
-
-.couplaElement {
-	background: salmon;
-}
-.punctuationElement {
-	background: lightgrey;
 }
 
 .baseInsideElement {

@@ -6,6 +6,7 @@ import AddButton from "../AddButton"
 import dictionary from "../jmdict/processed-jmdict.json"
 import Verb from "./Verb"
 import ConjugationEnding from "./ConjugationEnding"
+import Adjective from "./Adjective"
 
 export default function Conjugation({
 	parentConjugation,
@@ -14,7 +15,7 @@ export default function Conjugation({
 	mouse,
 }) {
 	const [isModalOpen, setIsModalOpen] = useState(false)
-	const verbConjugations = useElementsStore((state) => state.conjugations.verbs)
+	const conjugations = useElementsStore((state) => state.conjugations)
 	const [conjugationOptions, setConjugationOptions] = useState()
 	const currentConjugation = parentConjugation?.conjugation
 	const auxiliaries = useElementsStore((state) => state.auxiliaries)
@@ -152,58 +153,47 @@ export default function Conjugation({
 
 	function getConjugationOptions() {
 		//is a conjugation in a conjugation
-		if (!parentConjugation.verbType) {
+		if (parentConjugation.elementType === "adjective") {
+			return conjugations.iadjectives["default"]?.conjugationOptions
+		} else if (parentConjugation.elementType === "verb") {
+			//is the first conjugation
+			switch (parentConjugation.verbType) {
+				case "suru":
+					return conjugations.verbs["suruDefault"]?.conjugationOptions || []
+				case "kuru":
+					return conjugations.verbs["kuruDefault"]?.conjugationOptions || []
+				case "ichidan":
+					return conjugations.verbs["ichidanDefault"]?.conjugationOptions || []
+				case "kureru":
+					alert("make kureru")
+					return
+				default:
+					//godan, godan-iku, godan-aru
+					return getGodanConjugationOptions()
+			}
+		} else {
 			return (
-				verbConjugations[`${parentConjugation.stem}${parentConjugation.ending}`]
+				conjugations.verbs[`${parentConjugation.stem}${parentConjugation.ending}`]
 					?.conjugationOptions || []
 			)
-		}
-
-		//is the first conjugation
-		switch (parentConjugation.verbType) {
-			case "suru":
-				return verbConjugations["suruDefault"]?.conjugationOptions || []
-			case "kuru":
-				return verbConjugations["kuruDefault"]?.conjugationOptions || []
-			case "ichidan":
-				return verbConjugations["ichidanDefault"]?.conjugationOptions || []
-			case "kureru":
-				alert("make kureru")
-				return
-			default:
-				//godan, godan-iku, godan-aru
-				return getGodanConjugationOptions()
 		}
 	}
 
 	function onSelectConjugationChange(selectedConjugation) {
-		// alert(JSON.stringify(selectedConjugation))
-		let conjugationData = verbConjugations[selectedConjugation.text]
+		let conjugationData = conjugations.verbs[selectedConjugation.text]
 
 		//its a verb or adj
-		if (!conjugationData) {
-			if (
-				currentConjugation?.conjugationType === "te" ||
-				currentConjugation?.conjugationType === "aux"
-			) {
-				let auxElement
-				if (selectedConjugation.elementType === "verb") {
-					auxElement = dictionary.verbs.find((verb) => verb.text === selectedConjugation.text)
-				} else if (selectedConjugation.elementType === "adjective") {
-					auxElement = dictionary.adjectives.find(
-						(adjective) => adjective.text === selectedConjugation.text,
-					)
-				}
-
-				if (auxElement)
-					return updateConjugation({
-						...parentConjugation,
-						conjugation: {
-							...currentConjugation,
-							conjugation: auxElement,
-						},
-					})
-			}
+		if (
+			selectedConjugation.elementType === "verb" ||
+			selectedConjugation.elementType === "adjective"
+		) {
+			return updateConjugation({
+				...parentConjugation,
+				conjugation: {
+					...currentConjugation,
+					conjugation: selectedConjugation,
+				},
+			})
 		}
 
 		if (parentConjugation.verbType?.includes("godan")) {
@@ -239,7 +229,7 @@ export default function Conjugation({
 			}
 		} else {
 			if (selectedConjugation.text === "る") {
-				conjugationData = verbConjugations["ichidanDefault"]
+				conjugationData = conjugations.verbs["ichidanDefault"]
 			}
 			// alert(JSON.stringify(selectedConjugation))
 
@@ -312,11 +302,12 @@ export default function Conjugation({
 		}
 	}
 
-	if (currentConjugation.elementType === "verb") {
+	if (currentConjugation?.elementType === "verb") {
+		// alert(JSON.stringify(currentConjugation))
 		return (
 			<Verb
 				element={currentConjugation}
-				elementOptions={dictionary.auxiliaries}
+				elementOptions={auxiliaries}
 				updateElement={(updatedChild) =>
 					updateConjugation({
 						...parentConjugation,
@@ -335,8 +326,30 @@ export default function Conjugation({
 				mouse={mouse}
 			/>
 		)
-	} else if (currentConjugation.elementType === "adjective") {
-		return alert("make adjective")
+	} else if (currentConjugation?.elementType === "adjective") {
+		// alert(JSON.stringify(currentConjugation))
+		return (
+			<Adjective
+				element={currentConjugation}
+				elementOptions={auxiliaries}
+				updateElement={(updatedChild) =>
+					updateConjugation({
+						...parentConjugation,
+						conjugation: {
+							...currentConjugation,
+							...updatedChild,
+						},
+					})
+				}
+				deleteElement={() =>
+					updateConjugation({
+						...parentConjugation,
+						conjugation: {},
+					})
+				}
+				mouse={mouse}
+			/>
+		)
 	}
 
 	return (
@@ -352,7 +365,7 @@ export default function Conjugation({
 					{parentConjugation.verbType?.includes("godan") &&
 						parentConjugation.ending !== currentConjugation?.stem &&
 						parentConjugation.ending}
-					{!currentConjugation.stem && !currentConjugation.ending && (
+					{!currentConjugation?.stem && !currentConjugation?.ending && (
 						<div style={{ width: 40, height: 80 }} />
 					)}
 					{currentConjugation?.stem}

@@ -1,4 +1,5 @@
 import { create } from "zustand"
+import dictionary from "./jmdict/processed-jmdict.json"
 
 const rareruOptions = [
 	{ text: "る" },
@@ -37,8 +38,8 @@ const iadjOptions = [
 
 const kunaiOptions = [{ text: "い" }, { text: "かった" }, { text: "く" }, { text: "くて" }]
 
-const useElementsStore = create((set) => ({
-	auxiliaries: [
+function getAuxiliaries() {
+	const auxiliaries = [
 		{ text: "始める", elementType: "verb" },
 		{ text: "終わる", elementType: "verb" },
 		{ text: "続ける", elementType: "verb" },
@@ -54,7 +55,23 @@ const useElementsStore = create((set) => ({
 		{ text: "残す", elementType: "verb" },
 		{ text: "疲れる", elementType: "verb" },
 		{ text: "比べる", elementType: "verb" },
-	],
+	]
+	const newAuxiliaries = auxiliaries.map((aux) => {
+		if (aux.elementType === "verb") {
+			return dictionary.verbs?.find((verb) => verb.text === aux.text || verb.textKana === aux.text)
+		} else if (aux.elementType === "adjective") {
+			return dictionary.adjectives?.find(
+				(adj) => adj.text === aux.text || adj.textKana === aux.text,
+			)
+		}
+	})
+	// alert(JSON.stringify(newAuxiliaries))
+
+	return newAuxiliaries
+}
+
+const useElementsStore = create((set) => ({
+	auxiliaries: getAuxiliaries(),
 	particles: [
 		{
 			text: "から",
@@ -78,7 +95,7 @@ const useElementsStore = create((set) => ({
 		},
 		{
 			text: "に",
-			attachesTo: ["noun", "verb"],
+			attachesTo: ["noun", "verb", "na-type"],
 		},
 		{
 			text: "へ",

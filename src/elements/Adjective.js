@@ -2,33 +2,73 @@ import { useEffect, useState } from "react"
 import AddElementModal from "../AddElementModal"
 import "../App.css"
 import useElementsStore from "../useElementsStore"
+import Conjugation from "./Conjugation"
 
-export default function Adjective({ element, onClickSelf }) {
+export default function Adjective({
+	element,
+	onClickSelf,
+	updateElement,
+	mouse,
+	deleteElement,
+	elementOptions,
+}) {
 	const [isModalOpen, setIsModalOpen] = useState(false)
-	const [lastChar, setLastChar] = useState(element.at(-1))
 	const allElements = useElementsStore((state) => state)
-	const adjectiveConjugations = { adjectiveConjugations: allElements.adjectiveConjugations }
 
 	useEffect(() => {
-		setLastChar(element.at(-1))
+		// alert(JSON.stringify(element))
+		initializeAdjective(element)
 	}, [])
 
-	const stem = element.slice(0, -1)
+	// useEffect(() => {
+	// 	alert(JSON.stringify(element))
+	// }, [element])
+
+	function initializeAdjective(newElement) {
+		if (newElement.elementType === "verb" || newElement.adjectiveType === "i-type") {
+			updateElement({
+				...newElement,
+				conjugation: {
+					stem: newElement?.ending,
+				},
+			})
+		} else {
+			updateElement(newElement)
+		}
+	}
+	function addParticle(selectedElement) {
+		updateElement({ ...element, particle: selectedElement })
+	}
 	return (
 		<div className="modalContainer">
 			<AddElementModal
 				isModalOpen={isModalOpen}
 				setIsModalOpen={setIsModalOpen}
-				elementOptions={adjectiveConjugations}
-				onSelect={(element) => setLastChar(element.value)}
+				elementOptions={elementOptions}
+				onSelect={initializeAdjective}
+				hasDelete={true}
 			/>
 			<div className="baseElement adjectiveElement">
-				<div className="elementText" onClick={onClickSelf}>
-					{stem}
-				</div>
-				<div className="baseInsideElement adjectiveLastChar" onClick={() => setIsModalOpen(true)}>
-					{lastChar}
-				</div>
+				{element.conjugation && element.adjectiveType === "i-type" && (
+					<>
+						<div className="elementText" onClick={() => setIsModalOpen(true)}>
+							{element.stem}
+						</div>
+						<Conjugation
+							parentConjugation={element}
+							updateConjugation={updateElement}
+							deleteElement={deleteElement}
+							mouse={mouse}
+						/>
+					</>
+				)}
+				{element.adjectiveType === "na-type" && (
+					<>
+						<div className="elementText" onClick={() => setIsModalOpen(true)}>
+							{element.text}
+						</div>
+					</>
+				)}
 			</div>
 		</div>
 	)

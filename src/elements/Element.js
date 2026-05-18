@@ -8,11 +8,44 @@ import useElementsStore from "../useElementsStore"
 import Coupla from "./Coupla"
 import Punctuation from "./Punctuation"
 import dictionary from "../jmdict/processed-jmdict.json"
+import Particle from "./Particle"
+import AddButton from "../AddButton"
 
 export default function Element({ element, mouse, updateElement, deleteElement, defaultElements }) {
 	const [isModalOpen, setIsModalOpen] = useState(false)
 	// const [selectedElements, setSelectedElements] = useState()
 	const [isClosing, setIsClosing] = useState(false)
+	const [particleOptions, setParticleOptions] = useState([])
+	const particles = useElementsStore((state) => state.particles)
+
+	function getParticleOptions() {
+		const availableParticles = particles.filter((particle) =>
+			particle.attachesTo.includes("na-type"),
+		)
+		// alert(JSON.stringify(availableParticles.map((particle) => ({ text: particle.text }))))
+		setParticleOptions(
+			availableParticles.map((particle) => ({ elementType: "particle", text: particle.text })),
+		)
+	}
+
+	function addParticle(selectedElement) {
+		updateElement({ ...element, particle: selectedElement })
+	}
+
+	useEffect(() => {
+		getParticleOptions()
+	}, [])
+
+	function getColor() {
+		switch (element?.elementType) {
+			case "noun":
+				return "red"
+			case "adjective":
+				return "magenta"
+			case "verb":
+				return "blue"
+		}
+	}
 
 	function renderElement() {
 		const props = {
@@ -51,7 +84,24 @@ export default function Element({ element, mouse, updateElement, deleteElement, 
 				hasDelete={true}
 			/>
 			<Resize element={element} isClosing={isClosing} onCloseComplete={deleteElement}>
-				{renderElement()}
+				<div className="elementContainer" style={{ backgroundColor: getColor() }}>
+					{renderElement()}
+					{element.particle ? (
+						<Particle
+							element={element.particle}
+							elementOptions={particleOptions}
+							updateElement={addParticle}
+							deleteElement={deleteElement}
+						/>
+					) : (
+						<AddButton
+							mouse={mouse}
+							elementOptions={particleOptions}
+							addElement={addParticle}
+							hasSearch={true}
+						/>
+					)}
+				</div>
 			</Resize>
 		</div>
 	)
@@ -93,7 +143,6 @@ function Resize({ element, isClosing, onCloseComplete, children }) {
 
 	return (
 		<div
-			className="elementContainer"
 			style={{
 				width,
 				overflow: isOverflowVisible ? "visible" : "hidden",
