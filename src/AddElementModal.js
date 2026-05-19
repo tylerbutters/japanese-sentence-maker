@@ -27,6 +27,10 @@ export default function AddElementModal({
 		return () => document.removeEventListener("mousedown", handleClickOutside)
 	}, [isModalOpen])
 
+	// useEffect(() => {
+	// 	alert(JSON.stringify(elementOptions))
+	// }, [])
+
 	function closeModal() {
 		setIsModalOpen(false)
 		setSelectedCategory(null)
@@ -42,6 +46,7 @@ export default function AddElementModal({
 	}
 
 	function onClickElement(selectedElement) {
+		// alert(JSON.stringify(selectedElement))
 		if (selectedElement.list && selectedElement.list.length !== 0) {
 			setSelectedCategory(selectedElement.text)
 			setSecondaryElementOptions(selectedElement.list)
@@ -92,8 +97,9 @@ function ElementListItemContainer({ hasSearch, elementOptions, onClickElement, s
 	const sentinelRef = useRef(null)
 	const filteredOptions = useMemo(() => {
 		if (!searchText) return elementOptions
-		const query = searchText.toLowerCase()
-		return elementOptions.filter((e) => e?.text.startsWith(searchText))
+		return elementOptions.filter(
+			(e) => e?.text.startsWith(searchText) || e?.textKana.startsWith(searchText),
+		)
 	}, [elementOptions, searchText])
 
 	const visibleOptions = useMemo(() => {

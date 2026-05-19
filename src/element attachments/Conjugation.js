@@ -4,9 +4,9 @@ import "../App.css"
 import useElementsStore from "../useElementsStore"
 import AddButton from "../AddButton"
 import dictionary from "../jmdict/processed-jmdict.json"
-import Verb from "./Verb"
+import Verb from "../elements/Verb"
 import ConjugationEnding from "./ConjugationEnding"
-import Adjective from "./Adjective"
+import Adjective from "../elements/Adjective"
 
 export default function Conjugation({
 	parentConjugation,
@@ -22,8 +22,8 @@ export default function Conjugation({
 	// const isIrregularVerb = currentConjugation.stem === "する" || currentConjugation.stem === "くる"
 
 	useEffect(() => {
-		setConjugationOptions(getConjugationOptions())
-	}, [parentConjugation])
+		getConjugationOptions()
+	}, [])
 
 	function getGodanConjugationOptions() {
 		const godanMap = {
@@ -152,48 +152,67 @@ export default function Conjugation({
 	}
 
 	function getConjugationOptions() {
-		//is a conjugation in a conjugation
-		if (parentConjugation.elementType === "adjective") {
-			return conjugations.iadjectives["default"]?.conjugationOptions
-		} else if (parentConjugation.elementType === "verb") {
-			//is the first conjugation
-			switch (parentConjugation.verbType) {
-				case "suru":
-					return conjugations.verbs["suruDefault"]?.conjugationOptions || []
-				case "kuru":
-					return conjugations.verbs["kuruDefault"]?.conjugationOptions || []
-				case "ichidan":
-					return conjugations.verbs["ichidanDefault"]?.conjugationOptions || []
-				case "kureru":
-					alert("make kureru")
-					return
-				default:
-					//godan, godan-iku, godan-aru
-					return getGodanConjugationOptions()
-			}
-		} else {
-			return (
-				conjugations.verbs[`${parentConjugation.stem}${parentConjugation.ending}`]
-					?.conjugationOptions || []
-			)
+		let conjugationOptions
+
+		switch (parentConjugation.elementType) {
+			case "adjective":
+				conjugationOptions = conjugations["iAdjDefault"]?.conjugationOptions
+				break
+			case "verb": //is the first conjugation
+				switch (parentConjugation.verbType) {
+					case "suru":
+						conjugationOptions = conjugations["suruDefault"]?.conjugationOptions || []
+						break
+					case "kuru":
+						conjugationOptions = conjugations["kuruDefault"]?.conjugationOptions || []
+						break
+					case "ichidan":
+						conjugationOptions = conjugations["ichidanDefault"]?.conjugationOptions || []
+						break
+					case "kureru":
+						conjugationOptions = conjugations["kureruDefault"]?.conjugationOptions || []
+						break
+					default:
+						//godan, godan-iku, godan-aru
+						conjugationOptions = getGodanConjugationOptions()
+						break
+				}
+				break
+			case "desu":
+				// alert(JSON.stringify(conjugations["desuDefault"]))
+				conjugationOptions = conjugations["desuDefault"]?.conjugationOptions
+				break
+			default:
+				conjugationOptions =
+					conjugations[`${parentConjugation.stem || ""}${parentConjugation.ending || ""}`]
+						?.conjugationOptions || []
 		}
+		setConjugationOptions(conjugationOptions)
 	}
 
-	function onSelectConjugationChange(selectedConjugation) {
-		let conjugationData = conjugations.verbs[selectedConjugation.text]
-
-		//its a verb or adj
+	function getConjugationUpdate(selectedConjugation) {
+		//its a verb or adj　or desu
 		if (
 			selectedConjugation.elementType === "verb" ||
-			selectedConjugation.elementType === "adjective"
+			selectedConjugation.elementType === "adjective" ||
+			selectedConjugation.elementType === "desu"
 		) {
-			return updateConjugation({
+			//append to end of current conjugation
+			updateConjugation({
 				...parentConjugation,
 				conjugation: {
 					...currentConjugation,
 					conjugation: selectedConjugation,
 				},
 			})
+
+			return
+		}
+
+		let conjugationData = conjugations[selectedConjugation.text]
+		if (!conjugationData) {
+			alert("Haven't made this conjugation yet")
+			return
 		}
 
 		if (parentConjugation.verbType?.includes("godan")) {
@@ -203,8 +222,10 @@ export default function Conjugation({
 
 			const singleCharacterConjugation =
 				selectedConjugation.list?.length === 0 || selectedCategory.text === selectedConjugation.text
-			//only change the ending of the verb
+
 			if (singleCharacterConjugation) {
+				//only change the ending of the verb
+
 				updateConjugation({
 					...parentConjugation,
 					ending: selectedConjugation.text,
@@ -228,14 +249,12 @@ export default function Conjugation({
 				})
 			}
 		} else {
+			//if its ichidan ru
 			if (selectedConjugation.text === "る") {
-				conjugationData = conjugations.verbs["ichidanDefault"]
+				conjugationData = conjugations["ichidanDefault"]
 			}
-			// alert(JSON.stringify(selectedConjugation))
 
 			// //if its an te verb or b2
-
-			// alert(JSON.stringify(allElements.conjugations[selectedConjugation.value]))
 			updateConjugation({
 				...parentConjugation,
 				conjugation: {
@@ -248,7 +267,7 @@ export default function Conjugation({
 		}
 	}
 
-	function renderOtherElement() {
+	function renderElementAttachment() {
 		// alert(JSON.stringify(currentConjugation))
 		if (Object.keys(currentConjugation?.conjugation || {}).length !== 0) {
 			return (
@@ -272,7 +291,7 @@ export default function Conjugation({
 					elementOptions={auxiliaries}
 					mouse={mouse}
 					hasSearch={true}
-					addElement={onSelectConjugationChange}
+					addElement={getConjugationUpdate}
 				/>
 			)
 		} else if (currentConjugation.conjugationType === "te") {
@@ -281,7 +300,7 @@ export default function Conjugation({
 					elementOptions={dictionary.verbs}
 					mouse={mouse}
 					hasSearch={true}
-					addElement={onSelectConjugationChange}
+					addElement={getConjugationUpdate}
 				/>
 			)
 		} else if (currentConjugation?.ending) {
@@ -357,8 +376,8 @@ export default function Conjugation({
 			<AddElementModal
 				isModalOpen={isModalOpen}
 				setIsModalOpen={setIsModalOpen}
-				elementOptions={conjugationOptions}
-				onSelect={onSelectConjugationChange}
+				elementOptions={conjugationOptions || []}
+				onSelect={getConjugationUpdate}
 			/>
 			<div className="baseInsideElement conjugation">
 				<div className="insideElementText" onClick={() => setIsModalOpen(true)}>
@@ -370,7 +389,7 @@ export default function Conjugation({
 					)}
 					{currentConjugation?.stem}
 				</div>
-				{renderOtherElement()}
+				{renderElementAttachment()}
 			</div>
 		</div>
 	)

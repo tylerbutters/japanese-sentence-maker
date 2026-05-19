@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import Conjugation from "./Conjugation"
+import Conjugation from "../element attachments/Conjugation"
 import AddElementModal from "../AddElementModal"
 
 export default function Verb({ element, updateElement, deleteElement, mouse, elementOptions }) {
@@ -10,8 +10,6 @@ export default function Verb({ element, updateElement, deleteElement, mouse, ele
 	}, [])
 
 	function initializeVerb(newElement) {
-		// alert(JSON.stringify(element))
-
 		updateElement({
 			...newElement,
 			conjugation: {
@@ -34,7 +32,7 @@ export default function Verb({ element, updateElement, deleteElement, mouse, ele
 				<div className="elementText" onClick={() => setIsModalOpen(true)}>
 					{element.stem}
 				</div>
-				{element.conjugation && (
+				{element.conjugation?.stem && (
 					<Conjugation
 						parentConjugation={element}
 						updateConjugation={updateElement}

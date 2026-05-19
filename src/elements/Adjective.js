@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import AddElementModal from "../AddElementModal"
 import "../App.css"
 import useElementsStore from "../useElementsStore"
-import Conjugation from "./Conjugation"
+import Conjugation from "../element attachments/Conjugation"
 
 export default function Adjective({
 	element,

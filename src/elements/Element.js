@@ -8,8 +8,10 @@ import useElementsStore from "../useElementsStore"
 import Coupla from "./Coupla"
 import Punctuation from "./Punctuation"
 import dictionary from "../jmdict/processed-jmdict.json"
-import Particle from "./Particle"
+import Particle from "../element attachments/Particle"
 import AddButton from "../AddButton"
+import Adverb from "./Adverb"
+import Desu from "./Desu"
 
 export default function Element({ element, mouse, updateElement, deleteElement, defaultElements }) {
 	const [isModalOpen, setIsModalOpen] = useState(false)
@@ -44,6 +46,10 @@ export default function Element({ element, mouse, updateElement, deleteElement, 
 				return "magenta"
 			case "verb":
 				return "blue"
+			case "adverb":
+				return "orange"
+			case "desu":
+				return "purple"
 		}
 	}
 
@@ -68,6 +74,10 @@ export default function Element({ element, mouse, updateElement, deleteElement, 
 				return <Coupla {...props} />
 			case "punctuation":
 				return <Punctuation {...props} />
+			case "adverb":
+				return <Adverb {...props} />
+			case "desu":
+				return <Desu {...props} />
 			default:
 				return null
 		}

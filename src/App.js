@@ -4,7 +4,7 @@ import AddButton from "./AddButton"
 import Noun from "./elements/Noun"
 import Adjective from "./elements/Adjective"
 import Verb from "./elements/Verb"
-import Particle from "./elements/Particle"
+import Particle from "./element attachments/Particle"
 import useElementsStore from "./useElementsStore"
 import Element from "./elements/Element"
 import dictionary from "./jmdict/processed-jmdict.json"
@@ -13,13 +13,14 @@ export default function App() {
 	const [mouse, setMouse] = useState({ x: 0, y: 0 })
 	const [addedElements, setAddedElements] = useState([])
 	const [sentenceString, setSentenceString] = useState("")
+	const allElements = useElementsStore((state) => state)
 	const defaultElements = [
 		{ text: "Nouns", list: dictionary.nouns },
 		{ text: "Verbs", list: dictionary.verbs },
 		{ text: "Adjectives", list: dictionary.adjectives },
 		{ text: "Adverbs", list: dictionary.adverbs },
 		{ text: "Counters", list: dictionary.counters },
-		{ text: "だ", list: dictionary.desu },
+		{ text: "だ", list: [{ elementType: "desu", text: "だ", stem: "だ" }] },
 	]
 
 	useEffect(() => {

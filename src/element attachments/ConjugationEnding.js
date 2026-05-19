@@ -2,15 +2,15 @@ import { useEffect, useState } from "react"
 import AddElementModal from "../AddElementModal"
 import "../App.css"
 import useElementsStore from "../useElementsStore"
-import Verb from "./Verb"
+import Verb from "../elements/Verb"
 
 export default function ConjugationEnding({ conjugation, updateConjugation }) {
 	const [isModalOpen, setIsModalOpen] = useState(false)
-	const verbConjugations = useElementsStore((state) => state.conjugations.verbs)
+	const verbConjugations = useElementsStore((state) => state.conjugations)
 	const [conjugationOptions, setConjugationOptions] = useState([])
 
 	useEffect(() => {
-		setConjugationOptions(getConjugationOptions())
+		getConjugationOptions()
 	}, [])
 
 	function onSelect(selectedConjugation) {
@@ -21,7 +21,9 @@ export default function ConjugationEnding({ conjugation, updateConjugation }) {
 	}
 
 	function getConjugationOptions() {
-		return verbConjugations[`${conjugation?.stem}${conjugation?.ending}`]?.conjugationOptions || []
+		setConjugationOptions(
+			verbConjugations[`${conjugation?.stem}${conjugation?.ending}`]?.conjugationOptions || [],
+		)
 	}
 
 	return (
