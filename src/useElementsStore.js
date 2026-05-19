@@ -147,13 +147,11 @@ const useElementsStore = create((set) => ({
 	conjugations: {
 		iAdjDefault: {
 			stem: "い",
-			ending: null,
 			conjugationOptions: iadjOptions,
 		},
 		//kuru
 		kuruDefault: {
 			stem: "くる",
-			ending: null,
 			conjugationOptions: [
 				{ text: "きて" },
 				{ text: "きた" },
@@ -182,14 +180,10 @@ const useElementsStore = create((set) => ({
 		},
 		きた: {
 			stem: "きた",
-			ending: null,
-			conjugationOptions: [],
 		},
 		きて: {
 			stem: "きて",
-			ending: null,
 			conjugationType: "te",
-			conjugationOptions: [],
 		},
 		きたい: {
 			stem: "きた",
@@ -203,8 +197,6 @@ const useElementsStore = create((set) => ({
 		},
 		こよう: {
 			stem: "こよう",
-			ending: null,
-			conjugationOptions: [],
 		},
 		きます: {
 			stem: "きま",
@@ -213,8 +205,6 @@ const useElementsStore = create((set) => ({
 		},
 		くれば: {
 			stem: "くれば",
-			ending: null,
-			conjugationOptions: [],
 		},
 		こさせる: {
 			stem: "こさせ",
@@ -223,13 +213,10 @@ const useElementsStore = create((set) => ({
 		},
 		こず: {
 			stem: "こず",
-			ending: null,
-			conjugationOptions: [],
 		},
 		//suru
 		suruDefault: {
 			// stem: "する",
-			ending: null,
 			conjugationOptions: [
 				{ text: "される" },
 				{ text: "させる" },
@@ -262,19 +249,13 @@ const useElementsStore = create((set) => ({
 		},
 		した: {
 			stem: "した",
-			ending: null,
-			conjugationOptions: [],
 		},
 		すれば: {
 			stem: "すれば",
-			ending: null,
-			conjugationOptions: [],
 		},
 		して: {
 			stem: "して",
-			ending: null,
 			conjugationType: "te",
-			conjugationOptions: [],
 		},
 		したい: {
 			stem: "した",
@@ -288,13 +269,9 @@ const useElementsStore = create((set) => ({
 		},
 		しよう: {
 			stem: "しよう",
-			ending: null,
-			conjugationOptions: [],
 		},
 		せず: {
 			stem: "せず",
-			ending: null,
-			conjugationOptions: [],
 		},
 		//suru and ichidan
 		させる: {
@@ -305,7 +282,6 @@ const useElementsStore = create((set) => ({
 		//ichidan
 		ichidanDefault: {
 			stem: "る",
-			ending: null,
 			conjugationOptions: [
 				{ text: "ない" },
 				{ text: "たい" },
@@ -324,7 +300,6 @@ const useElementsStore = create((set) => ({
 		},
 		kureruDefault: {
 			stem: "る",
-			ending: null,
 			conjugationOptions: [
 				{ text: "ない" },
 				{ text: "たい" },
@@ -351,15 +326,12 @@ const useElementsStore = create((set) => ({
 		},
 		れば: {
 			stem: "れば",
-			ending: null,
-			conjugationOptions: [],
 		},
 		ろう: {
 			stem: "ろう",
 		},
 		//godan
 		る: {
-			stem: null,
 			ending: "る",
 			conjugationOptions: rareruOptions,
 		},
@@ -375,13 +347,9 @@ const useElementsStore = create((set) => ({
 		},
 		う: {
 			stem: "う",
-			ending: null,
-			conjugationOptions: [],
 		},
 		ば: {
 			stem: "ば",
-			ending: null,
-			conjugationOptions: [],
 		},
 		//ichidan and godan
 		ない: {
@@ -396,32 +364,22 @@ const useElementsStore = create((set) => ({
 		},
 		ず: {
 			stem: "ず",
-			ending: null,
-			conjugationOptions: [],
 		},
 		くて: {
 			stem: "くて",
-			ending: null,
 			conjugationType: "te",
-			conjugationOptions: [],
 		},
 		た: {
 			stem: "た",
-			ending: null,
-			conjugationOptions: [],
 		},
 
 		て: {
 			stem: "て",
-			ending: null,
 			conjugationType: "te",
-			conjugationOptions: [],
 		},
 
 		く: {
 			stem: "く",
-			ending: null,
-			conjugationOptions: [],
 		},
 
 		くない: {
@@ -432,8 +390,6 @@ const useElementsStore = create((set) => ({
 
 		かった: {
 			stem: "かった",
-			ending: null,
-			conjugationOptions: [],
 		},
 
 		ます: {
@@ -443,35 +399,24 @@ const useElementsStore = create((set) => ({
 		},
 		せん: {
 			stem: "せん",
-			ending: null,
-			conjugationOptions: [],
 		},
 		よう: {
 			stem: "よう",
-			ending: null,
-			conjugationOptions: [],
 		},
 		//desu
 		desuDefault: {
 			text: "た",
-			stem: null,
 			conjugationOptions: [{ text: "だった" }, { text: "で" }, { text: "です" }, { text: "だ" }],
 		},
 		だ: {
 			stem: "だ",
-			ending: null,
-			conjugationOptions: [],
 		},
 		だった: {
 			stem: "だった",
-			ending: null,
-			conjugationOptions: [],
 		},
 		で: {
 			stem: "で",
-			ending: null,
 			conjugationType: "te",
-			conjugationOptions: [],
 		},
 		です: {
 			stem: "で",

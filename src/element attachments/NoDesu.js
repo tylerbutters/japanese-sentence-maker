@@ -4,7 +4,7 @@ import AddElementModal from "../AddElementModal"
 import useElementsStore from "../useElementsStore"
 import AddButton from "../AddButton"
 
-export default function NoDesu({ element, updateElement, deleteElement, mouse }) {
+export default function NoDesu({ element, updateElement, deleteElement, mouse, color }) {
 	const [isModalOpen, setIsModalOpen] = useState()
 	const noDesuOptions = useElementsStore((state) => state.noDesu)
 
@@ -26,7 +26,11 @@ export default function NoDesu({ element, updateElement, deleteElement, mouse })
 				hasDelete={true}
 			/>
 			{element ? (
-				<div className="baseInsideElement suffixPrefixElement" onClick={() => setIsModalOpen(true)}>
+				<div
+					className="baseInsideElement"
+					style={{ backgroundColor: color }}
+					onClick={() => setIsModalOpen(true)}
+				>
 					<div className="insideElementText">{element?.text || "nothing"}</div>
 				</div>
 			) : (

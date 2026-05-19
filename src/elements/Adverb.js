@@ -25,18 +25,9 @@ export default function Adverb({ mouse, element, onClickSelf, updateElement, ele
 	}
 
 	return (
-		<div className="modalContainer">
-			<AddElementModal
-				isModalOpen={isModalOpen}
-				setIsModalOpen={setIsModalOpen}
-				elementOptions={elementOptions}
-				onSelect={initializeAdjective}
-				hasDelete={true}
-			/>
-			<div className="baseElement nounElement">
-				<div className="elementText" onClick={onClickSelf}>
-					{element?.text}
-				</div>
+		<div className="baseElement nounElement">
+			<div className="elementText" onClick={onClickSelf}>
+				{element?.text}
 			</div>
 		</div>
 	)

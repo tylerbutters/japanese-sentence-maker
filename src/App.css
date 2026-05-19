@@ -7,30 +7,26 @@
 	align-items: center;
 }
 
-.elementsContainer {
+.sentenceElementsContainer {
 	display: flex;
 	flex-direction: row;
+	align-items: center;
+	gap: 5px;
 }
 
 .addButton {
-	color: white;
+	color: grey;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	background-color: grey;
+	/* background-color: grey; */
 	font-size: 40px;
 	height: 80px;
-	width: 50px;
 	overflow: hidden;
-	border-radius: 5px;
+	border-radius: 10px;
 	cursor: pointer;
-	transition:
-		width 0.3s ease,
-		margin 0.3s ease;
-	margin: 0 2.5px 0 2.5px;
-}
-.addButton:active {
-	background-color: lightgrey;
+	transition: width 0.3s ease;
+	/* margin 0.3s ease; */
 }
 
 /* ADD ELEMENT MODAL */
@@ -125,6 +121,7 @@
 .modalContainer {
 	position: relative;
 }
+
 /* ELEMENTS */
 
 .elementText {
@@ -134,30 +131,16 @@
 
 .elementContainer {
 	display: flex;
-	z-index: 999;
-	border: 1px solid white;
-	position: relative;
 	align-items: center;
-	justify-content: center;
-	height: 80px;
+	height: 100px;
+	padding: 0 10px;
 	border-radius: 10px;
-	/* padding: 0 10px; */
 	cursor: pointer;
 }
 .baseElement {
 	display: flex;
-	z-index: 999;
-	height: 80px;
-	flex: 1;
-	/* border: 1px solid white; */
-	position: relative;
 	align-items: center;
-	justify-content: center;
-
-	border-radius: 10px;
-	/* padding: 0 10px; */
-	/* margin: 0 2.5px; */
-	cursor: pointer;
+	gap: 5px;
 }
 
 .baseInsideElement {
@@ -166,40 +149,12 @@
 	justify-content: center;
 	align-items: center;
 	height: 80px;
+	font-size: 40px;
 	/* padding: 0 0 0 5px; */
 	/* overflow: hidden; */
 	border-radius: 10px;
 	cursor: pointer;
 }
-.insideElementText {
-	font-size: 40px;
-	margin: 0 5px 0 5px;
-}
-
 .particleElement {
-	background: green;
-}
-.suffixPrefixElement {
-	background: orange;
-}
-.adjectiveLastChar {
-	background-color: purple;
-}
-
-.godanEnding {
-	background-color: green;
-}
-.conjugation {
-	background-color: darkblue;
-	border: 1px solid red;
-}
-.conjugationEnding {
-	background-color: red;
-}
-
-.couplaLastChar {
-	background-color: sandybrown;
-}
-.punctuationLastChar {
-	background-color: grey;
+	background: grey;
 }

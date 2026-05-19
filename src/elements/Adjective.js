@@ -11,6 +11,7 @@ export default function Adjective({
 	mouse,
 	deleteElement,
 	elementOptions,
+	secondaryColor,
 }) {
 	const [isModalOpen, setIsModalOpen] = useState(false)
 	const allElements = useElementsStore((state) => state)
@@ -46,6 +47,7 @@ export default function Adjective({
 				setIsModalOpen={setIsModalOpen}
 				elementOptions={elementOptions}
 				onSelect={initializeAdjective}
+				deleteElement={deleteElement}
 				hasDelete={true}
 			/>
 			<div className="baseElement adjectiveElement">
@@ -59,6 +61,7 @@ export default function Adjective({
 							updateConjugation={updateElement}
 							deleteElement={deleteElement}
 							mouse={mouse}
+							color={secondaryColor}
 						/>
 					</>
 				)}

@@ -2,7 +2,14 @@ import { useEffect, useState } from "react"
 import Conjugation from "../element attachments/Conjugation"
 import AddElementModal from "../AddElementModal"
 
-export default function Verb({ element, updateElement, deleteElement, mouse, elementOptions }) {
+export default function Verb({
+	element,
+	updateElement,
+	deleteElement,
+	mouse,
+	elementOptions,
+	secondaryColor,
+}) {
 	const [isModalOpen, setIsModalOpen] = useState(false)
 
 	useEffect(() => {
@@ -28,12 +35,13 @@ export default function Verb({ element, updateElement, deleteElement, mouse, ele
 				deleteElement={deleteElement}
 				hasDelete={true}
 			/>
-			<div className="baseElement verbElement">
+			<div className="baseElement">
 				<div className="elementText" onClick={() => setIsModalOpen(true)}>
 					{element.stem}
 				</div>
 				{element.conjugation?.stem && (
 					<Conjugation
+						color={secondaryColor}
 						parentConjugation={element}
 						updateConjugation={updateElement}
 						deleteElement={deleteElement}

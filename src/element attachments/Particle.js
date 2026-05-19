@@ -15,8 +15,12 @@ export default function Particle({ element, elementOptions, updateElement, delet
 				deleteElement={() => deleteElement(element.elementType)}
 				hasDelete={true}
 			/>
-			<div className="baseInsideElement particleElement" onClick={() => setIsModalOpen(true)}>
-				<div className="insideElementText">{element.text}</div>
+			<div
+				className="baseInsideElement"
+				style={{ background: "#FF7794", marginLeft: 5 }}
+				onClick={() => setIsModalOpen(true)}
+			>
+				{element.text}
 			</div>
 		</div>
 	)

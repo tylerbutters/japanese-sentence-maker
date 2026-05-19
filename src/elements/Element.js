@@ -41,15 +41,17 @@ export default function Element({ element, mouse, updateElement, deleteElement, 
 	function getColor() {
 		switch (element?.elementType) {
 			case "noun":
-				return "red"
+				return { primary: "#FF9C9C", secondary: "rgba(255,0,0,0.3" }
 			case "adjective":
-				return "magenta"
+				return { primary: "#FFC88D", secondary: "rgba(255,131,0,0.3" }
 			case "verb":
-				return "blue"
+				return { primary: "#A8B5FF", secondary: "rgba(0, 38, 255, 0.2)" }
 			case "adverb":
-				return "orange"
+				return { primary: "#97C688", secondary: "" }
+			case "counter":
+				return { primary: "#DC9CFF", secondary: "rgba(165,0,255,0.2)" }
 			case "desu":
-				return "purple"
+				return { primary: "#9ECDD5", secondary: "rgba(0,179,205,0.3)" }
 		}
 	}
 
@@ -61,6 +63,7 @@ export default function Element({ element, mouse, updateElement, deleteElement, 
 			deleteElement: () => setIsClosing(true),
 			mouse,
 			elementOptions: defaultElements,
+			secondaryColor: getColor().secondary,
 		}
 
 		switch (element?.elementType) {
@@ -94,7 +97,7 @@ export default function Element({ element, mouse, updateElement, deleteElement, 
 				hasDelete={true}
 			/>
 			<Resize element={element} isClosing={isClosing} onCloseComplete={deleteElement}>
-				<div className="elementContainer" style={{ backgroundColor: getColor() }}>
+				<div className="elementContainer" style={{ backgroundColor: getColor().primary }}>
 					{renderElement()}
 					{element.particle ? (
 						<Particle

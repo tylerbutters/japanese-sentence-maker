@@ -37,9 +37,9 @@ export default function AddButton({ locked, mouse, elementOptions, addElement, h
 				className="addButton"
 				onClick={() => setIsModalOpen((prev) => !prev)}
 				style={{
-					backgroundColor: isModalOpen ? "lightgrey" : "grey",
+					backgroundColor: isModalOpen && "lightgrey",
 					width: isVisible ? 50 : 0,
-					// margin: isVisible ? "0 2.5px" : "0",
+					// margin: isVisible ? "0 5px" : "0",
 				}}
 			>
 				+

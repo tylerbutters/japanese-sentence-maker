@@ -134,9 +134,9 @@ export default function App() {
 					<div key={index}>{element.value}</div>
 				))}
 			</div> */}
-			<div className="elementsContainer">
+			<div className="sentenceElementsContainer">
 				{addedElements.map((element, index) => (
-					<div key={index} style={{ display: "flex", alignItems: "center" }}>
+					<>
 						<AddButton
 							mouse={mouse}
 							elementOptions={defaultElements}
@@ -156,7 +156,7 @@ export default function App() {
 								addElement={(element) => addElement(index + 1, element)}
 							/>
 						)}
-					</div>
+					</>
 				))}
 				{!addedElements.length && (
 					<AddButton

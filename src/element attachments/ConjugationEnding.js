@@ -4,7 +4,7 @@ import "../App.css"
 import useElementsStore from "../useElementsStore"
 import Verb from "../elements/Verb"
 
-export default function ConjugationEnding({ conjugation, updateConjugation }) {
+export default function ConjugationEnding({ conjugation, updateConjugation, color }) {
 	const [isModalOpen, setIsModalOpen] = useState(false)
 	const verbConjugations = useElementsStore((state) => state.conjugations)
 	const [conjugationOptions, setConjugationOptions] = useState([])
@@ -34,8 +34,12 @@ export default function ConjugationEnding({ conjugation, updateConjugation }) {
 				elementOptions={conjugationOptions}
 				onSelect={onSelect}
 			/>
-			<div className="baseInsideElement conjugationEnding" onClick={() => setIsModalOpen(true)}>
-				<div className="insideElementText">{conjugation.ending}</div>
+			<div
+				className="baseInsideElement"
+				style={{ backgroundColor: color }}
+				onClick={() => setIsModalOpen(true)}
+			>
+				{conjugation.ending}
 			</div>
 		</div>
 	)

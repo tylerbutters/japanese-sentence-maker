@@ -5,7 +5,7 @@ import useElementsStore from "../useElementsStore"
 import NoDesu from "../element attachments/NoDesu"
 import AddButton from "../AddButton"
 
-export default function Desu({ element, updateElement, deleteElement, mouse }) {
+export default function Desu({ element, updateElement, deleteElement, mouse, secondaryColor }) {
 	const [isModalOpen, setIsModalOpen] = useState(false)
 	const conjugations = useElementsStore((state) => state.conjugations)
 
@@ -60,6 +60,7 @@ export default function Desu({ element, updateElement, deleteElement, mouse }) {
 					updateElement={addNoDesu}
 					deleteElement={() => updateElement({ ...element, noDesu: null })}
 					mouse={mouse}
+					color={secondaryColor}
 				/>
 
 				{element.conjugation && (
@@ -68,6 +69,7 @@ export default function Desu({ element, updateElement, deleteElement, mouse }) {
 						updateConjugation={updateElement}
 						deleteElement={deleteElement}
 						mouse={mouse}
+						color={secondaryColor}
 					/>
 				)}
 			</div>

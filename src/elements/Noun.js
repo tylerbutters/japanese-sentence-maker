@@ -7,7 +7,7 @@ import Prefix from "../element attachments/Prefix"
 import useElementsStore from "../useElementsStore"
 import dictionary from "../jmdict/processed-jmdict.json"
 
-export default function Noun({ mouse, element, onClickSelf, updateElement }) {
+export default function Noun({ mouse, element, onClickSelf, updateElement, secondaryColor }) {
 	const [isOpen, setIsOpen] = useState(false)
 	const allElements = useElementsStore((state) => state)
 
@@ -30,6 +30,7 @@ export default function Noun({ mouse, element, onClickSelf, updateElement }) {
 				updateElement={addElement}
 				deleteElement={() => updateElement({ ...element, prefix: null })}
 				mouse={mouse}
+				color={secondaryColor}
 			/>
 			<div className="elementText" onClick={onClickSelf}>
 				{element?.text}
@@ -37,8 +38,9 @@ export default function Noun({ mouse, element, onClickSelf, updateElement }) {
 			<Suffix
 				element={element.suffix}
 				updateElement={addElement}
-				deleteElement={() => updateElement({ ...element, prefix: null })}
+				deleteElement={() => updateElement({ ...element, suffix: null })}
 				mouse={mouse}
+				color={secondaryColor}
 			/>
 		</div>
 	)

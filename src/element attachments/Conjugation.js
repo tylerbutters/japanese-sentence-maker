@@ -13,6 +13,7 @@ export default function Conjugation({
 	updateConjugation,
 	deleteElement,
 	mouse,
+	color,
 }) {
 	const [isModalOpen, setIsModalOpen] = useState(false)
 	const conjugations = useElementsStore((state) => state.conjugations)
@@ -272,6 +273,7 @@ export default function Conjugation({
 		if (Object.keys(currentConjugation?.conjugation || {}).length !== 0) {
 			return (
 				<Conjugation
+					color={color}
 					mouse={mouse}
 					parentConjugation={currentConjugation}
 					updateConjugation={(updatedChild) =>
@@ -306,6 +308,7 @@ export default function Conjugation({
 		} else if (currentConjugation?.ending) {
 			return (
 				<ConjugationEnding
+					color={color}
 					conjugation={currentConjugation}
 					updateConjugation={(nextConjugation) => {
 						updateConjugation({
@@ -379,7 +382,7 @@ export default function Conjugation({
 				elementOptions={conjugationOptions || []}
 				onSelect={getConjugationUpdate}
 			/>
-			<div className="baseInsideElement conjugation">
+			<div className="baseInsideElement" style={{ backgroundColor: color }}>
 				<div className="insideElementText" onClick={() => setIsModalOpen(true)}>
 					{parentConjugation.verbType?.includes("godan") &&
 						parentConjugation.ending !== currentConjugation?.stem &&

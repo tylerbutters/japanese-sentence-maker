@@ -4,7 +4,7 @@ import AddElementModal from "../AddElementModal"
 import dictionary from "../jmdict/processed-jmdict.json"
 import AddButton from "../AddButton"
 
-export default function Prefix({ element, updateElement, deleteElement, mouse }) {
+export default function Prefix({ element, updateElement, deleteElement, mouse, color }) {
 	const [isModalOpen, setIsModalOpen] = useState()
 	const prefixOptions = dictionary.prefixes
 
@@ -22,8 +22,12 @@ export default function Prefix({ element, updateElement, deleteElement, mouse })
 				hasDelete={true}
 			/>
 			{element ? (
-				<div className="baseInsideElement suffixPrefixElement" onClick={() => setIsModalOpen(true)}>
-					<div className="insideElementText">{element.text}</div>
+				<div
+					className="baseInsideElement"
+					style={{ backgroundColor: color }}
+					onClick={() => setIsModalOpen(true)}
+				>
+					{element.text}
 				</div>
 			) : (
 				<AddButton
